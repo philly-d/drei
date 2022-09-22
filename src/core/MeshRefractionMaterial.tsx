@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import * as React from 'react'
 import { useLayoutEffect, useMemo, useRef } from 'react'
 import { extend, ReactThreeFiber, useThree } from '@react-three/fiber'
-import { MeshBVH, SAH } from 'three-mesh-bvh'
+import { MeshBVHUniformStruct, MeshBVH, SAH } from 'three-mesh-bvh'
 import { MeshRefractionMaterial as MeshRefractionMaterial_ } from '../materials/MeshRefractionMaterial'
 
 declare global {
@@ -43,6 +43,7 @@ export function MeshRefractionMaterial({
 
   const material = useRef()
   const { size } = useThree()
+  const bvh = useMemo(() => new MeshBVHUniformStruct(), [])
 
   const defines = useMemo(() => {
     const temp = {} as { [key: string]: string }
@@ -84,6 +85,7 @@ export function MeshRefractionMaterial({
       resolution={[size.width, size.height]}
       aberrationStrength={aberrationStrength}
       envMap={envMap}
+      bvh={bvh}
       {...props}
     />
   )
